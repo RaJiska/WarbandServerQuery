@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Hooks">
-      <UniqueIdentifier>{15e2912a-c80e-4cb8-9169-21c58deba59e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -24,30 +21,21 @@
     <ClCompile Include="HookManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Addresses.cpp">
+    <ClCompile Include="WarbandServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WarbandServerQuery.cpp">
+    <ClCompile Include="Hook.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Hook_PlayerJoined.cpp">
-      <Filter>Source Files\Hooks</Filter>
-    </ClCompile>
-    <ClCompile Include="Hook_ChatMessageSent.cpp">
-      <Filter>Source Files\Hooks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WarbandServerQuery.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HookManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Addresses.hpp">
+    <ClInclude Include="WarbandServer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Hooks.hpp">
+    <ClInclude Include="Hook.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

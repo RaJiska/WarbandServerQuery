@@ -1,9 +1,29 @@
 #include "HookManager.hpp"
+#include "WarbandServer.hpp"
+#include "Hook.hpp"
+
+#include <iostream>
+
+HookManager::HookManager(bool setupHooks)
+{
+	if (setupHooks)
+		this->setupHooks();
+}
+
+void HookManager::setupHooks(void)
+{
+	this->placeHook(
+		(BYTE *) WarbandServer::Addresses::playerJoined_EntryPoint,
+		(DWORD) Hook::playerJoined,
+		WarbandServer::Addresses::playerJoined_ExitPoint - WarbandServer::Addresses::playerJoined_EntryPoint
+	);
+	//hookMngr.placeHook((BYTE*) Addresses::chatMessageSent_EntryPoint, (DWORD) hook_ChatMessageSent, Addresses::chatMessageSent_ExitPoint - Addresses::chatMessageSent_EntryPoint);
+}
 
 void HookManager::placeHook(BYTE *address, DWORD jumpTo, SIZE_T len)
 {
 	DWORD oldProtect;
-	hookBackup_t bak;
+	HookBackup bak;
 
 	bak.address = address;
 	bak.data = new BYTE [len];
@@ -22,8 +42,7 @@ void HookManager::revertHooks(void)
 {
 	DWORD oldProtect;
 
-	for (auto &it : this->oldHookData)
-	{
+	for (auto &it : this->oldHookData) {
 		VirtualProtect(it.address, it.len, PAGE_EXECUTE_READWRITE, &oldProtect);
 		std::memcpy(it.address, it.data, it.len);
 		VirtualProtect(it.address, it.len, oldProtect, &oldProtect);
