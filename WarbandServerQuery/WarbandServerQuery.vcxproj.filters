@@ -27,6 +27,12 @@
     <ClCompile Include="Hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ControlServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookManager.hpp">
@@ -36,6 +42,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hook.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlServer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WarbandServerQueryAdmin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

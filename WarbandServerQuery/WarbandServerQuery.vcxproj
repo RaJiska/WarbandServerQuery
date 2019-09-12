@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\local\boost_1_71_0;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -94,6 +95,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\local\boost_1_71_0\stage\x86\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -147,15 +149,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ControlServer.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="HookManager.cpp" />
     <ClCompile Include="Hook.cpp" />
     <ClCompile Include="WarbandServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Client.hpp" />
+    <ClInclude Include="ControlServer.hpp" />
     <ClInclude Include="HookManager.hpp" />
     <ClInclude Include="Hook.hpp" />
     <ClInclude Include="WarbandServer.hpp" />
+    <ClInclude Include="WarbandServerQueryAdmin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

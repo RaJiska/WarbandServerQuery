@@ -17,7 +17,16 @@ void HookManager::setupHooks(void)
 		(DWORD) Hook::playerJoined,
 		WarbandServer::Addresses::playerJoined_ExitPoint - WarbandServer::Addresses::playerJoined_EntryPoint
 	);
-	//hookMngr.placeHook((BYTE*) Addresses::chatMessageSent_EntryPoint, (DWORD) hook_ChatMessageSent, Addresses::chatMessageSent_ExitPoint - Addresses::chatMessageSent_EntryPoint);
+	this->placeHook(
+		(BYTE*) WarbandServer::Addresses::chatMessageSent_EntryPoint,
+		(DWORD) Hook::chatMessageSent,
+		WarbandServer::Addresses::chatMessageSent_ExitPoint - WarbandServer::Addresses::chatMessageSent_EntryPoint
+	);
+	this->placeHook(
+		(BYTE*) WarbandServer::Addresses::logEntryAdded_EntryPoint,
+		(DWORD) Hook::logEntryAdded,
+		WarbandServer::Addresses::logEntryAdded_ExitPoint - WarbandServer::Addresses::logEntryAdded_EntryPoint
+	);
 }
 
 void HookManager::placeHook(BYTE *address, DWORD jumpTo, SIZE_T len)

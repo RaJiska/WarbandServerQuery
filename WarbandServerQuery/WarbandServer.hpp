@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Windows.h>
+#include "windows.h"
 
 class WarbandServer
 {
@@ -11,6 +11,10 @@ public:
 	{
 		const static unsigned playerJoined_EntryPoint = 0x0042916C;
 		const static unsigned playerJoined_ExitPoint = 0x00429171;
+		const static unsigned chatMessageSent_EntryPoint = 0x00439A90;
+		const static unsigned chatMessageSent_ExitPoint = 0x00439A96;
+		const static unsigned logEntryAdded_EntryPoint = 0x00484B40;
+		const static unsigned logEntryAdded_ExitPoint = 0x00484B46;
 
 		const static unsigned fncBanPlayer = 0x0043C760;
 		const static unsigned fncSendMessage = 0x00439A90;
@@ -28,10 +32,10 @@ public:
 		BYTE unkEnd[0x317CB];
 	} Player;
 
-	// 10h + MsgSize
+	// 110h
 	typedef struct
 	{
-		BYTE unk1[0x6];
+		UINT32 unk1;
 		UINT32 unk2; // Constant value 02 E0 EB 88
 		UINT32 unk3; // Constant value 00 00 00 80
 		UINT32 size;
@@ -40,5 +44,10 @@ public:
 
 	WarbandServer() = default;
 	virtual ~WarbandServer() = default;
+
+	virtual void synchronizeNewClient(unsigned long long clientId);
+	virtual void playerJoined(Player *player);
+private:
+	std::vector<Player *> players;
 };
 

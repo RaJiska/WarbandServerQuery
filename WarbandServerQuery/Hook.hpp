@@ -6,5 +6,6 @@
 namespace Hook
 {
 	extern "C" void playerJoined(void);
-	void chatMessageSent(void);
+	extern "C" void chatMessageSent(void);
+	extern "C" void logEntryAdded(void);
 }
