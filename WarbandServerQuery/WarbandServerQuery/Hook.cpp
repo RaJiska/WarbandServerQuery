@@ -17,8 +17,9 @@ extern "C" static void __stdcall connectPlayerJoined(WarbandServer::Player *play
 	ofs.close();
 	*/
 
-	gWarbandServer.playerJoined(player);
+	gWarbandServer->playerJoined(player);
 	int id = *((int *) player);
+	std::cout << "Name Addr: " << (void *) player->name << std::endl;
 	std::cout << "(" << id << ") [" << (void*)player <<
 		"] Player '" << (const char*)player->name <<
 		"' with ID: " << (int)(player->uniqueId & 0x00FFFFFF) <<
@@ -30,12 +31,36 @@ extern "C" __declspec(naked) void Hook::playerJoined(void)
 {
 	__asm
 	{
-		FREEZE_REGS
+		push eax /* Reserve space for future player pointer; adds 0x4 to every ESP */
+		push eax
+		mov eax, [esp + 0x38 + 0x4]
+		push edx
+		mov edx, [esp + 0x38 + 0x4]
+		push eax
+		mov eax, [esp + 0x38 + 0x4]
+		push edx
+		mov edx, [esp + 0x38 + 0x4]
+		push eax
+		mov eax, [esp + 0x38 + 0x4]
+		push edx
+		mov edx, [esp + 0x30 + 0x4]
+		push eax
+		mov eax, [esp + 0x30 + 0x4]
 		push esi
-		call connectPlayerJoined
-		RESTORE_REGS
-		push ebp
-		lea ecx, [esp + 0x18]
+		mov esi, [esp + 0x3C + 0x4]
+		push edx
+		mov edx, [esp + 0x34 + 0x4]
+		push eax
+		mov eax, [esi]
+		imul eax, 0x10210
+		push edx
+		lea ecx, [eax + ecx + 0x130]
+		mov [esp + 0x2C], ecx // Save player pointer to our reserved space
+		mov bl, 1
+		// Workaround to unsuported direct CALL
+		mov eax, 0x00428F80
+		call eax
+		call connectPlayerJoined // Free our reserved space on the way
 		jmp [WarbandServer::Addresses::playerJoined_ExitPoint]
 	}
 }
@@ -44,7 +69,7 @@ extern "C" static void __stdcall connectChatMessageSent(WarbandServer::ChatMessa
 {
 	//std::cout << "Pushed Addr: " << (void*)msg << " ; " << &msg->message << " ; " << &msg->size<< std::endl;
 	//std::cout << "Message Sent: " << msg->message << " [" << msg->size << "]" << std::endl;
-	gWarbandServer.kickPlayer(679046);
+	gWarbandServer->kickPlayer(679046);
 	std::cout << "Kick: " << (679046) << std::endl;
 }
 

@@ -13,15 +13,13 @@ boost::asio::ip::tcp::socket &Client::getSocket() noexcept
 
 void Client::send(const BYTE *msg, unsigned sz)
 {
-	boost::asio::async_write(
+	boost::system::error_code err;
+
+	boost::asio::write(
 		this->socket,
 		boost::asio::buffer(msg, sz),
-		boost::bind(
-			&Client::handleWrite,
-			this,
-			boost::asio::placeholders::error,
-			boost::asio::placeholders::bytes_transferred
-		)
+		boost::asio::transfer_all(),
+		err
 	);
 }
 

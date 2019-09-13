@@ -5,5 +5,8 @@
 #include "ControlServer.hpp"
 #include "WarbandServer.hpp"
 
-static ControlServer gControlServer(8888);
-static WarbandServer gWarbandServer;
+class ControlServer;
+class WarbandServer;
+
+extern ControlServer *gControlServer;
+extern WarbandServer *gWarbandServer;

@@ -9,8 +9,10 @@ public:
 
 	struct Addresses
 	{
-		const static unsigned playerJoined_EntryPoint = 0x0042916C;
-		const static unsigned playerJoined_ExitPoint = 0x00429171;
+		//const static unsigned playerJoined_EntryPoint = 0x0042916C;
+		//const static unsigned playerJoined_ExitPoint = 0x00429171;
+		const static unsigned playerJoined_EntryPoint = 0x0042741E;
+		const static unsigned playerJoined_ExitPoint = 0x00427463;
 		const static unsigned chatMessageSent_EntryPoint = 0x00439A90;
 		const static unsigned chatMessageSent_ExitPoint = 0x00439A96;
 		const static unsigned logEntryAdded_EntryPoint = 0x00484B40;
@@ -29,10 +31,10 @@ public:
 		/* Pre-Header at 0x130 above */
 		BYTE unk1[0x37];
 		UINT32 uniqueId; // 0x38
-		BYTE unk2[0x784A];
-		BYTE name[0x1D /* 29 */]; // Size TBC; 0x7886
-		BYTE unk3[0x77CD];
+		BYTE unk2[0xF034];
 		UINT32 role; // 0xF070
+		BYTE unk3[0x10];
+		BYTE name[0x1D]; // 0xF084
 		BYTE unkEnd[0x317CB];
 	} Player;
 

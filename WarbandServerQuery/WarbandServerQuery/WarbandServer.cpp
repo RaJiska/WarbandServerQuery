@@ -11,7 +11,7 @@ void WarbandServer::playerJoined(Player *player)
 	msg.uid = (player->uniqueId & 0x00FFFFFF);
 	std::strncpy(reinterpret_cast<char*>(msg.name), reinterpret_cast<char*>(&player->name[0]), 29);
 	msg.role = player->role;
-	gControlServer.broadcastMessage(
+	gControlServer->broadcastMessage(
 		ControlServer::GAME_PLAYER_JOINED,
 		reinterpret_cast<BYTE *>(&msg),
 		sizeof(ControlServer::MsgPlayerJoined)
@@ -26,9 +26,10 @@ void WarbandServer::synchronizeNewClient(unsigned long long clientId)
 	for (auto &it : this->players) {
 		msg.id = 0;
 		msg.uid = (it->uniqueId & 0x00FFFFFF);
-		std::strncpy(reinterpret_cast<char*>(msg.name), reinterpret_cast<char*>(&it->name[0]), 29);
+		std::strncpy(reinterpret_cast<char *>(&msg.name[0]), reinterpret_cast<char *>(&it->name[0]), 29);
 		msg.role = it->role;
-		gControlServer.sendMessage(
+		std::cout << "Sending: Player Name: " << msg.name << std::endl;
+		gControlServer->sendMessage(
 			clientId,
 			ControlServer::GAME_PLAYER_JOINED,
 			reinterpret_cast<BYTE *>(&msg),

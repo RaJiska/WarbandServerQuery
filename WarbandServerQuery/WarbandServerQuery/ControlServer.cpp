@@ -15,17 +15,23 @@ ControlServer::ControlServer(UINT16 port) :
 		&ControlServer::logoutClient,
 		this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3
 	);
+	this->setupAccept();
 }
 
 ControlServer::~ControlServer()
 {
 }
 
+void ControlServer::run()
+{
+	this->ioService.run();
+}
+
 void ControlServer::sendMessage(unsigned long long id, MessageType type, const BYTE *msg, unsigned sz)
 {
 	std::shared_ptr<Client> client;
-	BYTE* netMsg = new BYTE[sizeof(MessageHeader) + sz];
-	MessageHeader* header = reinterpret_cast<MessageHeader*>(netMsg);
+	BYTE *netMsg = new BYTE[sizeof(MessageHeader) + sz];
+	MessageHeader *header = reinterpret_cast<MessageHeader *>(netMsg);
 
 	header->type = type;
 	header->sz = sz;
@@ -47,15 +53,18 @@ void ControlServer::broadcastMessage(MessageType type, const BYTE *msg, unsigned
 	header->type = type;
 	header->sz = sz;
 	std::memcpy(header + 1, msg, sz);
-	for (auto& it : this->clients) {
-		if (it->isLoggedIn())
+	for (auto &it : this->clients) {
+		if (it->isLoggedIn()) {
 			it->send(netMsg, sz + sizeof(MessageHeader));
+		}
 	}
 	delete [] netMsg;
 }
 
 void ControlServer::disconnectClient(std::shared_ptr<Client> &client) noexcept
 {
+	std::cout << "Client disconnected (" << client->id << "): " <<
+		client->getSocket().remote_endpoint().address().to_string() << std::endl;
 	client->getSocket().close();
 	for (auto it = this->clients.begin(); it != this->clients.end(); ++it) {
 		if (*(*it) == *client) {
@@ -63,8 +72,6 @@ void ControlServer::disconnectClient(std::shared_ptr<Client> &client) noexcept
 			break;
 		}
 	}
-	std::cout << "Client disconnected (" << client->id << "): " <<
-		client->getSocket().remote_endpoint().address().to_string() << std::endl;
 }
 
 void ControlServer::setupAccept()
@@ -112,7 +119,7 @@ void ControlServer::handleRead(
 {
 	MessageHeader *header = reinterpret_cast<MessageHeader *>(client->getData());
 
-	if (err) {
+	if (!nBytes || err) {
 		this->disconnectClient(client);
 		return;
 	}
@@ -150,8 +157,9 @@ void ControlServer::loginClient(unsigned long long id, const BYTE *msg, unsigned
 		}
 	}
 	/* TODO: Auth system */
+	this->sendMessage(id, ControlServer::CTRL_LOGIN, 0, 0);
 	client->isLoggedIn() = true;
-	gWarbandServer.synchronizeNewClient(client->id);
+	gWarbandServer->synchronizeNewClient(client->id);
 }
 
 void ControlServer::logoutClient(unsigned long long id, const BYTE *, unsigned)

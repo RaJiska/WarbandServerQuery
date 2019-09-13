@@ -1,11 +1,18 @@
-#include "mainwindow.h"
+#include "MainWindow.hpp"
+#include "Globals.hpp"
 
 #include <QApplication>
+#include <QtConcurrent/QtConcurrent>
+
+WarbandServer *gWarbandServer = new WarbandServer();
+ServerQuery *gServerQuery = new ServerQuery();
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+	QApplication a(argc, argv);
+	MainWindow w;
+
+	//QFuture<void> future = QtConcurrent::run(gServerQuery, &ServerQuery::connect);
+	w.show();
+	return a.exec();
 }

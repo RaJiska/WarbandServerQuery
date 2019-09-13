@@ -49,6 +49,7 @@ public:
 	ControlServer(UINT16 port);
 	~ControlServer();
 
+	virtual void run();
 	virtual void sendMessage(unsigned long long id, MessageType type, const BYTE *msg, unsigned sz);
 	virtual void broadcastMessage(MessageType type, const BYTE *msg, unsigned sz);
 
@@ -60,12 +61,12 @@ private:
 	void handleAccept(std::shared_ptr<Client> &client, const boost::system::error_code &error);
 	void setupRead(std::shared_ptr<Client> &client);
 	void handleRead(const boost::system::error_code &err, size_t nBytes, std::shared_ptr<Client> &client);
-	void loginClient(unsigned long long id, const BYTE* msg, unsigned sz);
-	void logoutClient(unsigned long long id, const BYTE* msg, unsigned sz);
+	void loginClient(unsigned long long id, const BYTE *msg, unsigned sz);
+	void logoutClient(unsigned long long id, const BYTE *msg, unsigned sz);
 
 	std::unordered_map<
 		MessageType,
-		std::function<void(unsigned long long, const BYTE*, unsigned)>
+		std::function<void(unsigned long long, const BYTE *, unsigned)>
 	> msgMap;
 	std::list<std::shared_ptr<Client>> clients;
 	boost::asio::io_service ioService;
