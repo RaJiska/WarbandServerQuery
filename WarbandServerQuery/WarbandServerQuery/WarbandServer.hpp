@@ -18,11 +18,15 @@ public:
 
 		const static unsigned fncBanPlayer = 0x0043C760;
 		const static unsigned fncSendMessage = 0x00439A90;
+		const static unsigned fncKickPlayer = 0x00427560;
+		//static void (__thiscall *fncKickPlayer)(void *pThis, int index) = (void (__thiscall *)(void *, int index)) 0x00427560;
+		const static unsigned fncKickPlayerThis = 0x00ABF158;
 	};
 
 	// 40840h
 	typedef struct
 	{
+		/* Pre-Header at 0x130 above */
 		BYTE unk1[0x37];
 		UINT32 uniqueId; // 0x38
 		BYTE unk2[0x784A];
@@ -47,6 +51,7 @@ public:
 
 	virtual void synchronizeNewClient(unsigned long long clientId);
 	virtual void playerJoined(Player *player);
+	virtual void kickPlayer(unsigned playerId);
 private:
 	std::vector<Player *> players;
 };

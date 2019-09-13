@@ -2,15 +2,27 @@
 #include "Hook.hpp"
 
 #include <iostream>
+#include <fstream>
 
 extern "C" static void __stdcall connectPlayerJoined(WarbandServer::Player *player)
 {
+	/*
+	UINT32* tmp = (UINT32 *) player;
+	std::ofstream ofs = std::ofstream("C:/Users/RaJiska/source/file.txt", std::ofstream::out | std::ofstream::app);
+	for (unsigned int it = 0; it < 16384; ++it) {
+		ofs << "[" << (void*)tmp << "] " << *tmp << std::endl;
+		++tmp;
+	}
+	ofs << "END END END END END";
+	ofs.close();
+	*/
+
 	gWarbandServer.playerJoined(player);
-	std::cout << "[" << (void*)player <<
+	int id = *((int *) player);
+	std::cout << "(" << id << ") [" << (void*)player <<
 		"] Player '" << (const char*)player->name <<
 		"' with ID: " << (int)(player->uniqueId & 0x00FFFFFF) <<
 		" joined the game with role: " << player->role << std::endl;
-	
 
 }
 
@@ -30,8 +42,10 @@ extern "C" __declspec(naked) void Hook::playerJoined(void)
 
 extern "C" static void __stdcall connectChatMessageSent(WarbandServer::ChatMessage *msg)
 {
-	std::cout << "Pushed Addr: " << (void*)msg << " ; " << &msg->message << " ; " << &msg->size<< std::endl;
-	std::cout << "Message Sent: " << msg->message << " [" << msg->size << "]" << std::endl;
+	//std::cout << "Pushed Addr: " << (void*)msg << " ; " << &msg->message << " ; " << &msg->size<< std::endl;
+	//std::cout << "Message Sent: " << msg->message << " [" << msg->size << "]" << std::endl;
+	gWarbandServer.kickPlayer(679046);
+	std::cout << "Kick: " << (679046) << std::endl;
 }
 
 extern "C" __declspec(naked) void Hook::chatMessageSent(void)
@@ -50,7 +64,7 @@ extern "C" __declspec(naked) void Hook::chatMessageSent(void)
 
 extern "C" static void __stdcall connectLogEntryAdded(const char *msg)
 {
-	std::cout << "New Log Entry: " << msg << std::endl;
+	//std::cout << "New Log Entry: " << msg << std::endl;
 }
 
 extern "C" __declspec(naked) void Hook::logEntryAdded(void)

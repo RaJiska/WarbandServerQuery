@@ -46,10 +46,10 @@ void ControlServer::broadcastMessage(MessageType type, const BYTE *msg, unsigned
 
 	header->type = type;
 	header->sz = sz;
-	std::memcpy(header + 1, msg, sizeof(MessageHeader) + sz);
+	std::memcpy(header + 1, msg, sz);
 	for (auto& it : this->clients) {
 		if (it->isLoggedIn())
-			it->send(netMsg, sz);
+			it->send(netMsg, sz + sizeof(MessageHeader));
 	}
 	delete [] netMsg;
 }

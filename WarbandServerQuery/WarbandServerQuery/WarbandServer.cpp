@@ -1,6 +1,8 @@
 #include "WarbandServerQueryAdmin.hpp"
 #include "WarbandServer.hpp"
 
+#include <iostream>
+
 void WarbandServer::playerJoined(Player *player)
 {
 	ControlServer::MsgPlayerJoined msg;
@@ -33,4 +35,19 @@ void WarbandServer::synchronizeNewClient(unsigned long long clientId)
 			sizeof(ControlServer::MsgPlayerJoined)
 		);
 	}
+}
+
+void WarbandServer::kickPlayer(unsigned uniqueId)
+{
+	int index = 0x0;
+	void (__thiscall *kickPlayer)(void *pThis, int *index) = (void (__thiscall *)(void *, int *)) WarbandServer::Addresses::fncKickPlayer;
+
+	for (auto it : this->players) {
+		if ((it->uniqueId & 0x00FFFFFF) == uniqueId) {
+			index = (((BYTE *) it - (BYTE *) WarbandServer::Addresses::fncKickPlayerThis) / 0x10210);
+			break;
+		}
+	}
+	if (index)
+		kickPlayer((void*)WarbandServer::Addresses::fncKickPlayerThis, &index);
 }
