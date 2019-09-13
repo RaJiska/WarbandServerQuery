@@ -34,6 +34,8 @@ public:
 	{
 		UINT32 id;
 		UINT32 uid;
+		BYTE ipAddress[4];
+		UINT16 port;
 		BYTE name[30];
 		UINT32 role;
 	} MsgPlayerJoined;

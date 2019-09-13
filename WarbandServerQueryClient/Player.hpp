@@ -8,6 +8,8 @@ class Player
 public:
 	unsigned id;
 	unsigned uid;
+	unsigned char ipAddress[4];
+	unsigned short port;
 	std::string name;
 	unsigned role;
 

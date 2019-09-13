@@ -115,6 +115,8 @@ void ServerQuery::msgPlayerJoined(const BYTE *data, unsigned sz)
 
 	player.id = netPlayer->id;
 	player.uid = netPlayer->uid;
+	std::memcpy(&player.ipAddress[0], &netPlayer->ipAddress[0], 4);
+	player.port = netPlayer->port;
 	player.name = std::string((const char *) netPlayer->name);
 	player.role = netPlayer->role;
 	gWarbandServer->addPlayer(player);

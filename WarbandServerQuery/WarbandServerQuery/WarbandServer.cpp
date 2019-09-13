@@ -9,6 +9,8 @@ void WarbandServer::playerJoined(Player *player)
 
 	msg.id = 0;
 	msg.uid = (player->uniqueId & 0x00FFFFFF);
+	std::memcpy(&msg.ipAddress[0], &player->ipAddress[0], 4);
+	msg.port = player->port;
 	std::strncpy(reinterpret_cast<char*>(msg.name), reinterpret_cast<char*>(&player->name[0]), 29);
 	msg.role = player->role;
 	gControlServer->broadcastMessage(

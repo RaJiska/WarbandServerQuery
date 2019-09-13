@@ -21,6 +21,8 @@ extern "C" static void __stdcall connectPlayerJoined(WarbandServer::Player *play
 	int id = *((int *) player);
 	std::cout << "Name Addr: " << (void *) player->name << std::endl;
 	std::cout << "(" << id << ") [" << (void*)player <<
+		"] [" << (int) player->ipAddress[0] << "." << (int) player->ipAddress[1] << "." <<
+		(int) player->ipAddress[2] << "." << (int) player->ipAddress[3] << ":" << player->port <<
 		"] Player '" << (const char*)player->name <<
 		"' with ID: " << (int)(player->uniqueId & 0x00FFFFFF) <<
 		" joined the game with role: " << player->role << std::endl;
