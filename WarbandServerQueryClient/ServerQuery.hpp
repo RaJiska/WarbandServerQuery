@@ -1,6 +1,8 @@
 #ifndef SERVERQUERY_HPP
 #define SERVERQUERY_HPP
 
+#include "Player.hpp"
+
 #include <boost/asio.hpp>
 #include <string>
 #include <unordered_map>
@@ -44,15 +46,25 @@ public:
 #pragma pack(push, 1)
 	typedef struct
 	{
-		UINT32 id;
+		UINT32 uid;
 	} MsgPlayerLeft;
 #pragma pack(pop)
 
-	ServerQuery();
+#pragma pack(push, 1)
+	typedef struct
+	{
+		UINT32 uid;
+	} MsgPlayerKick;
+#pragma pack(pop)
+
+	explicit ServerQuery();
 	virtual ~ServerQuery() = default;
 
 	void connect();
 	void connect(const std::string &address, const std::string &port, const std::string &password);
+	void setAddress(const std::string &address);
+	void setPort(const std::string &port);
+	void setPassword(const std::string &password);
 	void setupRead();
 	void handleRead(const boost::system::error_code& err, size_t nBytes);
 	void sendMessage(MessageType type, const BYTE *msg, unsigned sz);
@@ -64,9 +76,13 @@ private:
 	boost::asio::ip::tcp::socket sock;
 	bool loggedIn = false;
 	std::unordered_map<MessageType, void (ServerQuery::*)(const BYTE *, unsigned)> msgMap;
+	std::string address;
+	std::string port;
+	std::string password;
 
 	void msgLogin(const BYTE *data, unsigned sz);
 	void msgPlayerJoined(const BYTE *data, unsigned sz);
+	void msgPlayerLeft(const BYTE *data, unsigned sz);
 	void sendLoginMsg(const std::string &password);
 };
 

@@ -15,6 +15,10 @@ ControlServer::ControlServer(UINT16 port) :
 		&ControlServer::logoutClient,
 		this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3
 	);
+	this->msgMap[ControlServer::GAME_KICK_PLAYER] = std::bind(
+		&ControlServer::kickPlayer,
+		this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3
+	);
 	this->setupAccept();
 }
 
@@ -170,4 +174,20 @@ void ControlServer::logoutClient(unsigned long long id, const BYTE *, unsigned)
 			break;
 		}
 	}
+}
+
+void ControlServer::kickPlayer(unsigned long long id, const BYTE *msg, unsigned)
+{
+	std::shared_ptr<Client> client;
+	const MsgPlayerKick *msgKick = (const MsgPlayerKick *) msg;
+
+	for (auto &it : this->clients) {
+		if (it->id == id) {
+			client = it;
+			break;
+		}
+	}
+	if (!client->isLoggedIn())
+		return;
+	gWarbandServer->kickPlayer(msgKick->uid);
 }

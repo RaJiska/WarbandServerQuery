@@ -18,6 +18,11 @@ void HookManager::setupHooks(void)
 		WarbandServer::Addresses::playerJoined_ExitPoint - WarbandServer::Addresses::playerJoined_EntryPoint
 	);
 	this->placeHook(
+		(BYTE *) WarbandServer::Addresses::playerLeft_EntryPoint,
+		(DWORD) Hook::playerLeft,
+		WarbandServer::Addresses::playerLeft_ExitPoint - WarbandServer::Addresses::playerLeft_EntryPoint
+	);
+	this->placeHook(
 		(BYTE*) WarbandServer::Addresses::chatMessageSent_EntryPoint,
 		(DWORD) Hook::chatMessageSent,
 		WarbandServer::Addresses::chatMessageSent_ExitPoint - WarbandServer::Addresses::chatMessageSent_EntryPoint

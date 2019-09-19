@@ -17,14 +17,16 @@ extern "C" static void __stdcall connectPlayerJoined(WarbandServer::Player *play
 	ofs.close();
 	*/
 
+	if (player->uniqueId == 0)
+		return;
 	gWarbandServer->playerJoined(player);
 	int id = *((int *) player);
-	std::cout << "Name Addr: " << (void *) player->name << std::endl;
-	std::cout << "(" << id << ") [" << (void*)player <<
-		"] [" << (int) player->ipAddress[0] << "." << (int) player->ipAddress[1] << "." <<
-		(int) player->ipAddress[2] << "." << (int) player->ipAddress[3] << ":" << player->port <<
-		"] Player '" << (const char*)player->name <<
-		"' with ID: " << (int)(player->uniqueId & 0x00FFFFFF) <<
+	printf("Addr: %X\n", &player->id);
+	std::cout << "(" << id << ") [" << (void *)player <<
+		"] [" << (int)player->ipAddress[0] << "." << (int)player->ipAddress[1] << "." <<
+		(int)player->ipAddress[2] << "." << (int)player->ipAddress[3] << ":" << player->port <<
+		"] Player '" << (const char *)player->name <<
+		"' with ID: " << (int)(player->uniqueId & 0x00FFFFFF) << " (" << (int)player->id << ")" <<
 		" joined the game with role: " << player->role << std::endl;
 
 }
@@ -64,6 +66,24 @@ extern "C" __declspec(naked) void Hook::playerJoined(void)
 		call eax
 		call connectPlayerJoined // Free our reserved space on the way
 		jmp [WarbandServer::Addresses::playerJoined_ExitPoint]
+	}
+}
+
+extern "C" static void __stdcall connectPlayerLeft(WarbandServer::Player *player)
+{
+	gWarbandServer->playerLeft(player->uniqueId & 0x00FFFFFF);
+}
+
+extern "C" __declspec(naked) void Hook::playerLeft(void)
+{
+	__asm
+	{
+		FREEZE_REGS
+		push esi
+		call connectPlayerLeft
+		RESTORE_REGS
+		mov ecx, 0x006E44D8
+		jmp [WarbandServer::Addresses::playerLeft_ExitPoint]
 	}
 }
 

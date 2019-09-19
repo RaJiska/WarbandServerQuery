@@ -209,10 +209,6 @@
            <widget class="QTextBrowser" name="textFlowAll"/>
           </item>
          </layout>
-         <zorder>textFlowAll</zorder>
-         <zorder>tabWidget</zorder>
-         <zorder>tabWidget</zorder>
-         <zorder>tabWidget</zorder>
         </widget>
         <widget class="QWidget" name="tab_4">
          <attribute name="title">
@@ -276,7 +272,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuServer">
@@ -317,7 +313,7 @@
   </widget>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="../resources.qrc">
+    <iconset resource="resources.qrc">
      <normaloff>:/img/img/exit.png</normaloff>:/img/img/exit.png</iconset>
    </property>
    <property name="text">
@@ -329,7 +325,7 @@
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset resource="../resources.qrc">
+    <iconset resource="resources.qrc">
      <normaloff>:/img/img/offline.png</normaloff>:/img/img/offline.png</iconset>
    </property>
    <property name="text">
@@ -344,7 +340,7 @@
   </action>
   <action name="actionRefresh">
    <property name="icon">
-    <iconset resource="../resources.qrc">
+    <iconset resource="resources.qrc">
      <normaloff>:/img/img/refresh.png</normaloff>
      <disabledon>../../Icons/refresh.png</disabledon>:/img/img/refresh.png</iconset>
    </property>
@@ -354,7 +350,7 @@
   </action>
   <action name="actionServerConnect">
    <property name="icon">
-    <iconset resource="../resources.qrc">
+    <iconset resource="resources.qrc">
      <normaloff>:/img/img/connection.png</normaloff>:/img/img/connection.png</iconset>
    </property>
    <property name="text">
@@ -364,7 +360,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

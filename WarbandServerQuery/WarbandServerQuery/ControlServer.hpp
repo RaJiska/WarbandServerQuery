@@ -44,8 +44,15 @@ public:
 	#pragma pack(push, 1)
 	typedef struct
 	{
-		UINT32 id;
+		UINT32 uid;
 	} MsgPlayerLeft;
+	#pragma pack(pop)
+
+	#pragma pack(push, 1)
+		typedef struct
+	{
+		UINT32 uid;
+	} MsgPlayerKick;
 	#pragma pack(pop)
 
 	ControlServer(UINT16 port);
@@ -65,6 +72,7 @@ private:
 	void handleRead(const boost::system::error_code &err, size_t nBytes, std::shared_ptr<Client> &client);
 	void loginClient(unsigned long long id, const BYTE *msg, unsigned sz);
 	void logoutClient(unsigned long long id, const BYTE *msg, unsigned sz);
+	void kickPlayer(unsigned long long id, const BYTE *msg, unsigned sz);
 
 	std::unordered_map<
 		MessageType,

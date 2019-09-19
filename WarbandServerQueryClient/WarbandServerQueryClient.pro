@@ -17,6 +17,7 @@ QMAKE_LFLAGS+=/INCREMENTAL:NO
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        ConnectWindow.cpp \
 main.cpp \
 MainWindow.cpp \
 Player.cpp \
@@ -24,6 +25,7 @@ ServerQuery.cpp \
 WarbandServer.cpp
 
 HEADERS += \
+        ConnectWindow.hpp \
         Globals.hpp \
 MainWindow.hpp \
 Player.hpp \
@@ -31,7 +33,8 @@ ServerQuery.hpp \
 WarbandServer.hpp
 
 FORMS += \
-    mainwindow.ui
+mainwindow.ui \
+connectwindow.ui
 
 INCLUDEPATH += "C:/Program Files/Boost/include/boost-1_71"
 LIBS += "-LC:/Program Files/Boost/lib"
@@ -40,3 +43,6 @@ LIBS += "-LC:/Program Files/Boost/lib"
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+        resources.qrc

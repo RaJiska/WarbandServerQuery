@@ -11,6 +11,8 @@ public:
 	{
 		const static unsigned playerJoined_EntryPoint = 0x0042741E;
 		const static unsigned playerJoined_ExitPoint = 0x00427463;
+		const static unsigned playerLeft_EntryPoint = 0x004384AF;
+		const static unsigned playerLeft_ExitPoint = 0x004384B4;
 		const static unsigned chatMessageSent_EntryPoint = 0x00439A90;
 		const static unsigned chatMessageSent_ExitPoint = 0x00439A96;
 		const static unsigned logEntryAdded_EntryPoint = 0x00484B40;
@@ -31,9 +33,11 @@ public:
 		BYTE unk2[0x1C];
 		BYTE ipAddress[4]; // 0x58
 		UINT16 port; // 5C
-		BYTE unk3[0xF012];
+		BYTE unk3[0x22];
+		BYTE id; // 0x80
+		BYTE unk4[0xEFEF];
 		UINT32 role; // 0xF070
-		BYTE unk4[0x10];
+		BYTE unk5[0x10];
 		BYTE name[0x1D]; // 0xF084
 		BYTE unkEnd[0x317BC];
 	} Player;
@@ -53,7 +57,8 @@ public:
 
 	virtual void synchronizeNewClient(unsigned long long clientId);
 	virtual void playerJoined(Player *player);
-	virtual void kickPlayer(unsigned playerId);
+	virtual void playerLeft(unsigned uniqueId);
+	virtual void kickPlayer(unsigned playerUid);
 private:
 	std::vector<Player *> players;
 };

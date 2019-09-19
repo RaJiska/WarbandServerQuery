@@ -2,7 +2,6 @@
 #include "Globals.hpp"
 
 #include <QApplication>
-#include <QtConcurrent/QtConcurrent>
 
 WarbandServer *gWarbandServer = new WarbandServer();
 ServerQuery *gServerQuery = new ServerQuery();
