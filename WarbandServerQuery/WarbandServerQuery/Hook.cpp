@@ -6,17 +6,6 @@
 
 extern "C" static void __stdcall connectPlayerJoined(WarbandServer::Player *player)
 {
-	/*
-	UINT32* tmp = (UINT32 *) player;
-	std::ofstream ofs = std::ofstream("C:/Users/RaJiska/source/file.txt", std::ofstream::out | std::ofstream::app);
-	for (unsigned int it = 0; it < 16384; ++it) {
-		ofs << "[" << (void*)tmp << "] " << *tmp << std::endl;
-		++tmp;
-	}
-	ofs << "END END END END END";
-	ofs.close();
-	*/
-
 	if (player->uniqueId == 0)
 		return;
 	gWarbandServer->playerJoined(player);
@@ -64,7 +53,7 @@ extern "C" __declspec(naked) void Hook::playerJoined(void)
 		// Workaround to unsuported direct CALL
 		mov eax, 0x00428F80
 		call eax
-		call connectPlayerJoined // Free our reserved space on the way
+		call connectPlayerJoined // Restore stack of our reserved space on the way
 		jmp [WarbandServer::Addresses::playerJoined_ExitPoint]
 	}
 }
@@ -89,10 +78,7 @@ extern "C" __declspec(naked) void Hook::playerLeft(void)
 
 extern "C" static void __stdcall connectChatMessageSent(WarbandServer::ChatMessage *msg)
 {
-	//std::cout << "Pushed Addr: " << (void*)msg << " ; " << &msg->message << " ; " << &msg->size<< std::endl;
-	//std::cout << "Message Sent: " << msg->message << " [" << msg->size << "]" << std::endl;
-	gWarbandServer->kickPlayer(679046);
-	std::cout << "Kick: " << (679046) << std::endl;
+	/* Do Something */
 }
 
 extern "C" __declspec(naked) void Hook::chatMessageSent(void)
